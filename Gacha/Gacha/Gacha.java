@@ -11,6 +11,10 @@ public class Gacha {
     private static final String[] standard_3 = { "1", "2", "3", "4",
             "5" };
 
+    private static int pity = 0; // pity
+    private static boolean safeFive = false; // sécure limited 5*
+    private static boolean safeFour = false; // sécure limited 4*
+
     private static String gachaGen(String[] tab) {
         String result;
         Random random = new Random();
@@ -19,6 +23,7 @@ public class Gacha {
     }
 
     public static String pull(Banner banner) {
+        pity++;
         String result;
         double rand = Math.random() * 100;
         double isRatedUpint = Math.random() * 2;
@@ -30,9 +35,21 @@ public class Gacha {
             banner = new Banner(standard_5, standard_4);
         }
         if (rand < 0.6) {
-            result = isRatedUp ? gachaGen(banner.getLimited_5()) : gachaGen(standard_5);
+            if (isRatedUp || safeFive) {
+                result = gachaGen(banner.getLimited_5());
+                safeFive = false;
+            } else {
+                result = gachaGen(standard_5);
+                safeFive = true;
+            }
         } else if (rand < 4.6) {
-            result = isRatedUp ? gachaGen(banner.getLimited_4()) : gachaGen(standard_4);
+            if (isRatedUp || safeFour) {
+                result = gachaGen(banner.getLimited_4());
+                safeFour = false;
+            } else {
+                result = gachaGen(standard_4);
+                safeFour = true;
+            }
         } else {
             result = gachaGen(standard_3);
         }
@@ -43,6 +60,7 @@ public class Gacha {
         ArrayList<String> result = new ArrayList<>();
         Boolean isNon3star = false;
         for (int i = 0; i < 10; i++) {
+            pity++;
             double rand = Math.random() * 100;
             double isRatedUpint = Math.random() * 2;
             boolean isRatedUp = false;
@@ -52,12 +70,72 @@ public class Gacha {
             if (banner == null) {
                 banner = new Banner(standard_5, standard_4);
             }
-            if (rand < 0.6) {
-                result.add((isRatedUp ? gachaGen(banner.getLimited_5()) : gachaGen(standard_5)));
-            } else if (rand < 5.1) {
-                result.add((isRatedUp ? gachaGen(banner.getLimited_4()) : gachaGen(standard_4)));
+            /* Soft pity */
+            if (pity == 75) {
+                double soft = Math.random() * 5;
+                if (soft == 1) {
+                    if (isRatedUp || safeFive) {
+                        result.add(gachaGen(banner.getLimited_5()));
+                        safeFive = false;
+                    } else {
+                        result.add(gachaGen(standard_5));
+                        safeFive = true;
+                    }
+                    pity = 0;
+                } else {
+                    if (rand < 0.6) {
+                        if (isRatedUp || safeFive) {
+                            result.add(gachaGen(banner.getLimited_5()));
+                            safeFive = false;
+                        } else {
+                            result.add(gachaGen(standard_5));
+                            safeFive = true;
+                        }
+                        pity = 0;
+                    } else if (rand < 5.1) {
+                        if (isRatedUp || safeFour) {
+                            result.add(gachaGen(banner.getLimited_4()));
+                            safeFour = false;
+                        } else {
+                            result.add(gachaGen(standard_4));
+                            safeFour = true;
+                        }
+                    } else {
+                        result.add(gachaGen(standard_3));
+                    }
+                }
+                /* Hard pity */
+            } else if (pity == 90) {
+                if (isRatedUp || safeFive) {
+                    result.add(gachaGen(banner.getLimited_5()));
+                    safeFive = false;
+                } else {
+                    result.add(gachaGen(standard_5));
+                    safeFive = true;
+                }
+                pity = 0;
+                /* Aucune pity */
             } else {
-                result.add(gachaGen(standard_3));
+                if (rand < 0.6) {
+                    if (isRatedUp || safeFive) {
+                        result.add(gachaGen(banner.getLimited_5()));
+                        safeFive = false;
+                    } else {
+                        result.add(gachaGen(standard_5));
+                        safeFive = true;
+                    }
+                    pity = 0;
+                } else if (rand < 5.1) {
+                    if (isRatedUp || safeFour) {
+                        result.add(gachaGen(banner.getLimited_4()));
+                        safeFour = false;
+                    } else {
+                        result.add(gachaGen(standard_4));
+                        safeFour = true;
+                    }
+                } else {
+                    result.add(gachaGen(standard_3));
+                }
             }
         }
         boolean present;

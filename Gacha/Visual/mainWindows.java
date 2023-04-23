@@ -30,6 +30,16 @@ public class mainWindows extends JFrame implements ActionListener {
     private String[] seeleLimited_4 = { "Hook", "March_7th", "Herta" };
     private Banner bannerSeelePull = new Banner(seeleLimited_5, seeleLimited_4);
 
+    private String[] kafkaLimited_5 = { "Kafka" };
+    private String[] kafkaLimited_4 = { "Herta", "Qingque", "Tingyun" };
+    private Banner bannerKafkaPull = new Banner(kafkaLimited_5, kafkaLimited_4);
+
+    private String[] fuXuanLimited_5 = { "Fu_Xuan" };
+    private String[] fuXuanLimited_4 = { "Sushang", "Qingque", "Arlan" };
+    private Banner bannerFuXuanPull = new Banner(fuXuanLimited_5, fuXuanLimited_4);
+
+    private int actualConfig = 0;
+
     private JPanel mainPanel;
     private JPanel panelPull;
     private JPanel panelButton;
@@ -37,6 +47,8 @@ public class mainWindows extends JFrame implements ActionListener {
     private JButton one;
     private JButton ten;
     private JButton back;
+    private JButton next;
+    private JButton previous;
 
     private ImageIcon bannerSeele;
     private Image tempo;
@@ -50,6 +62,8 @@ public class mainWindows extends JFrame implements ActionListener {
     private boolean wait = false;
 
     private ArrayList<String> soundList = new ArrayList<>();
+
+    private String resultat;
 
     public mainWindows() {
         initComponents();
@@ -69,6 +83,7 @@ public class mainWindows extends JFrame implements ActionListener {
         soundList.add("Seele");
         soundList.add("Herta");
         soundList.add("Bronya");
+        soundList.add("Kafka");
     }
 
     private void initComponents() {
@@ -88,13 +103,18 @@ public class mainWindows extends JFrame implements ActionListener {
         panelButton = new JPanel();
         panelButton.setLayout(new FlowLayout(FlowLayout.CENTER));
 
+        previous = new JButton("Previous");
+        previous.addActionListener(this);
         one = new JButton("Pull x1");
         one.addActionListener(this);
         ten = new JButton("Pull x10");
         ten.addActionListener(this);
+        next = new JButton("Next");
+        next.addActionListener(this);
 
         panelButton.add(one);
         panelButton.add(ten);
+        panelButton.add(next);
         panelButton.setBorder(BorderFactory.createLineBorder(Color.gray, 5));
 
         /* Add final */
@@ -110,13 +130,25 @@ public class mainWindows extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (!wait) {
             if (e.getSource() == one) {
-                String resultat = Gacha.pull(bannerSeelePull);
-                System.out.println(resultat);
+                switch (actualConfig) {
+                    case 0:
+                        resultat = Gacha.pull(bannerSeelePull);
+                        break;
+                    case 1:
+                        resultat = Gacha.pull(bannerKafkaPull);
+                        break;
+                    case 2:
+                        resultat = Gacha.pull(bannerFuXuanPull);
+                        break;
+                }
+                panelButton.removeAll();
+                panelButton.add(one);
+                panelButton.add(ten);
+                back = new JButton("Back");
+                back.addActionListener(this);
+                panelButton.add(back);
                 panelPull.removeAll();
                 if (ini) {
-                    back = new JButton("Back");
-                    back.addActionListener(this);
-                    panelButton.add(back);
                     panelPull.setBorder(BorderFactory.createLineBorder(Color.gray, 5));
                     ini = false;
                 }
@@ -128,14 +160,27 @@ public class mainWindows extends JFrame implements ActionListener {
             }
             if (e.getSource() == ten) {
                 wait = true;
-                result = Gacha.multiPull(bannerSeelePull);
+                switch (actualConfig) {
+                    case 0:
+                        result = Gacha.multiPull(bannerSeelePull);
+                        break;
+                    case 1:
+                        result = Gacha.multiPull(bannerKafkaPull);
+                        break;
+                    case 2:
+                        result = Gacha.multiPull(bannerFuXuanPull);
+                        break;
+                }
+                panelButton.removeAll();
+                panelButton.add(one);
+                panelButton.add(ten);
+                back = new JButton("Back");
+                back.addActionListener(this);
+                panelButton.add(back);
                 panelPull.removeAll();
                 panelPull.setLayout(new GridLayout(2, 5));
                 panelPull.setBorder(BorderFactory.createLineBorder(Color.gray, 5));
                 if (ini) {
-                    back = new JButton("Back");
-                    back.addActionListener(this);
-                    panelButton.add(back);
                     ini = false;
                 }
 
@@ -172,42 +217,71 @@ public class mainWindows extends JFrame implements ActionListener {
 
             }
             if (e.getSource() == back) {
-                ini = true;
-                mainPanel.removeAll();
-                ;
-                mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-
-                /* Zone de pull */
-                panelPull = new JPanel();
-                bannerSeele = new ImageIcon("BannerPromo/Seele.jpg");
-                tempo = bannerSeele.getImage().getScaledInstance(1280, 600, Image.SCALE_SMOOTH);
-                bannerSeele = new ImageIcon(tempo);
-                banner = new JLabel(bannerSeele);
-                panelPull.add(banner);
-
-                /* Zone de bouton */
-                panelButton = new JPanel();
-                panelButton.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-                one = new JButton("Pull x1");
-                one.addActionListener(this);
-                ten = new JButton("Pull x10");
-                ten.addActionListener(this);
-
-                panelButton.add(one);
-                panelButton.add(ten);
-                panelButton.setBorder(BorderFactory.createLineBorder(Color.gray, 5));
-
-                /* Add final */
-                mainPanel.add(panelPull);
-                mainPanel.add(panelButton);
-
-                add(mainPanel);
-                revalidate();
-                repaint();
+                reload();
+            }
+            if (e.getSource() == next) {
+                actualConfig++;
+                reload();
+            }
+            if (e.getSource() == previous) {
+                actualConfig--;
+                reload();
             }
         }
 
+    }
+
+    private void reload() {
+        ini = true;
+        mainPanel.removeAll();
+        ;
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+
+        /* Zone de pull */
+        panelPull = new JPanel();
+        panelButton = new JPanel();
+        switch (actualConfig) {
+            case 0: // Fenetre Seele
+                bannerSeele = new ImageIcon("BannerPromo/Seele.jpg");
+                panelButton.add(one);
+                panelButton.add(ten);
+                panelButton.add(next);
+                break;
+            case 1: // Fenetre Kafka
+                bannerSeele = new ImageIcon("BannerPromo/Kafka.png");
+                panelButton.add(previous);
+                panelButton.add(one);
+                panelButton.add(ten);
+                panelButton.add(next);
+                break;
+            case 2: // Fenetre Fu Xuan
+                bannerSeele = new ImageIcon("BannerPromo/Fu_Xuan.png");
+                previous = new JButton("Previous");
+                previous.addActionListener(this);
+                panelButton.add(previous);
+                panelButton.add(one);
+                panelButton.add(ten);
+                break;
+
+        }
+        tempo = bannerSeele.getImage().getScaledInstance(1280, 600, Image.SCALE_SMOOTH);
+        bannerSeele = new ImageIcon(tempo);
+        banner = new JLabel(bannerSeele);
+        panelPull.add(banner);
+
+        /* Zone de bouton */
+
+        panelButton.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        panelButton.setBorder(BorderFactory.createLineBorder(Color.gray, 5));
+
+        /* Add final */
+        mainPanel.add(panelPull);
+        mainPanel.add(panelButton);
+
+        add(mainPanel);
+        revalidate();
+        repaint();
     }
 
     public static void main(String[] args) {
