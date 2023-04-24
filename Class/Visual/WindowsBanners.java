@@ -25,7 +25,7 @@ import javax.swing.Timer;
 import Class.Gacha.Banner;
 import Class.Gacha.Gacha;
 
-public class mainWindows extends JFrame implements ActionListener {
+public class WindowsBanners extends JFrame implements ActionListener {
     private String[] seeleLimited_5 = { "Seele" };
     private String[] seeleLimited_4 = { "Hook", "March_7th", "Herta" };
     private Banner bannerSeelePull = new Banner(seeleLimited_5, seeleLimited_4);
@@ -73,7 +73,7 @@ public class mainWindows extends JFrame implements ActionListener {
 
     private String resultat;
 
-    public mainWindows() {
+    public WindowsBanners() {
         initComponents();
         initSound();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
