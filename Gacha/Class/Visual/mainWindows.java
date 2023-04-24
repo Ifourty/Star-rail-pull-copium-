@@ -1,4 +1,4 @@
-package Visual;
+package Class.Visual;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,8 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Gacha.Banner;
-import Gacha.Gacha;
+import Class.Gacha.Banner;
+import Class.Gacha.Gacha;
 
 public class mainWindows extends JFrame implements ActionListener {
     private String[] seeleLimited_5 = { "Seele" };
@@ -101,7 +101,7 @@ public class mainWindows extends JFrame implements ActionListener {
 
         /* Zone de pull */
         panelPull = new JPanel();
-        bannerSeele = new ImageIcon("BannerPromo/Seele.jpg");
+        bannerSeele = new ImageIcon("Assets/BannerPromo/Seele.jpg");
         tempo = bannerSeele.getImage().getScaledInstance(1280, 600, Image.SCALE_SMOOTH);
         bannerSeele = new ImageIcon(tempo);
         banner = new JLabel(bannerSeele);
@@ -160,7 +160,7 @@ public class mainWindows extends JFrame implements ActionListener {
                     panelPull.setBorder(BorderFactory.createLineBorder(Color.gray, 5));
                     ini = false;
                 }
-                ImageIcon resultPull = new ImageIcon("Perso/" + resultat + ".png");
+                ImageIcon resultPull = new ImageIcon("Assets/Perso/" + resultat + ".png");
                 JLabel resultCase = new JLabel(resultPull);
                 panelPull.add(resultCase);
                 panelPull.revalidate();
@@ -203,9 +203,9 @@ public class mainWindows extends JFrame implements ActionListener {
                 Timer timer = new Timer(150, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        ImageIcon resultPull = new ImageIcon("Perso/" + result.get(index) + ".png");
+                        ImageIcon resultPull = new ImageIcon("Assets/Perso/" + result.get(index) + ".png");
                         if (soundList.contains(result.get(index))) {
-                            File sound = new File("Sound/" + result.get(index) + ".wav");
+                            File sound = new File("Assets/Sound/" + result.get(index) + ".wav");
                             try {
                                 Clip clip = AudioSystem.getClip();
                                 clip.open(AudioSystem.getAudioInputStream(sound));
@@ -256,34 +256,34 @@ public class mainWindows extends JFrame implements ActionListener {
         panelButton = new JPanel();
         switch (actualConfig) {
             case 0: // Fenetre Seele
-                bannerSeele = new ImageIcon("BannerPromo/Seele.jpg");
+                bannerSeele = new ImageIcon("Assets/BannerPromo/Seele.jpg");
                 panelButton.add(one);
                 panelButton.add(ten);
                 panelButton.add(next);
                 break;
             case 1:
-                bannerSeele = new ImageIcon("BannerPromo/Bronya.jpg");
+                bannerSeele = new ImageIcon("Assets/BannerPromo/Bronya.jpg");
                 panelButton.add(previous);
                 panelButton.add(one);
                 panelButton.add(ten);
                 panelButton.add(next);
                 break;
             case 2: // Fenetre Kafka
-                bannerSeele = new ImageIcon("BannerPromo/Kafka.png");
+                bannerSeele = new ImageIcon("Assets/BannerPromo/Kafka.png");
                 panelButton.add(previous);
                 panelButton.add(one);
                 panelButton.add(ten);
                 panelButton.add(next);
                 break;
             case 3: // Fenetre Fu Xuan
-                bannerSeele = new ImageIcon("BannerPromo/Fu_Xuan.png");
+                bannerSeele = new ImageIcon("Assets/BannerPromo/Fu_Xuan.png");
                 panelButton.add(previous);
                 panelButton.add(one);
                 panelButton.add(ten);
                 panelButton.add(next);
                 break;
             case 4:
-                bannerSeele = new ImageIcon("BannerPromo/Blade.jpg");
+                bannerSeele = new ImageIcon("Assets/BannerPromo/Blade.jpg");
                 panelButton.add(previous);
                 panelButton.add(one);
                 panelButton.add(ten);

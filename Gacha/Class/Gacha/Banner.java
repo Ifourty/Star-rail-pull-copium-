@@ -1,4 +1,4 @@
-package Gacha;
+package Class.Gacha;
 
 public class Banner {
     private String[] limited_5;

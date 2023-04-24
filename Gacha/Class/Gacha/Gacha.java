@@ -1,4 +1,4 @@
-package Gacha;
+package Class.Gacha;
 
 import java.util.ArrayList;
 import java.util.Random;

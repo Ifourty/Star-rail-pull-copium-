@@ -1,4 +1,4 @@
-import Visual.mainWindows;
+import Class.Visual.mainWindows;
 
 public class Launch {
     public static void main(String[] args) {
