@@ -38,6 +38,14 @@ public class mainWindows extends JFrame implements ActionListener {
     private String[] fuXuanLimited_4 = { "Sushang", "Qingque", "Arlan" };
     private Banner bannerFuXuanPull = new Banner(fuXuanLimited_5, fuXuanLimited_4);
 
+    private String[] bronyaLimited_5 = { "Bronya" };
+    private String[] bronyaLimited_4 = { "Hook", "March_7th", "Herta" };
+    private Banner bannerBronyaPull = new Banner(bronyaLimited_5, bronyaLimited_4);
+
+    private String[] bladeLimited_5 = { "Blade" };
+    private String[] bladeLimited_4 = { "Hook", "March_7th", "Herta" };
+    private Banner bannerBladePull = new Banner(bladeLimited_5, bladeLimited_4);
+
     private int actualConfig = 0;
 
     private JPanel mainPanel;
@@ -165,10 +173,16 @@ public class mainWindows extends JFrame implements ActionListener {
                         result = Gacha.multiPull(bannerSeelePull);
                         break;
                     case 1:
-                        result = Gacha.multiPull(bannerKafkaPull);
+                        result = Gacha.multiPull(bannerBronyaPull);
                         break;
                     case 2:
+                        result = Gacha.multiPull(bannerKafkaPull);
+                        break;
+                    case 3:
                         result = Gacha.multiPull(bannerFuXuanPull);
+                        break;
+                    case 4:
+                        result = Gacha.multiPull(bannerBladePull);
                         break;
                 }
                 panelButton.removeAll();
@@ -247,17 +261,29 @@ public class mainWindows extends JFrame implements ActionListener {
                 panelButton.add(ten);
                 panelButton.add(next);
                 break;
-            case 1: // Fenetre Kafka
+            case 1:
+                bannerSeele = new ImageIcon("BannerPromo/Bronya.jpg");
+                panelButton.add(previous);
+                panelButton.add(one);
+                panelButton.add(ten);
+                panelButton.add(next);
+                break;
+            case 2: // Fenetre Kafka
                 bannerSeele = new ImageIcon("BannerPromo/Kafka.png");
                 panelButton.add(previous);
                 panelButton.add(one);
                 panelButton.add(ten);
                 panelButton.add(next);
                 break;
-            case 2: // Fenetre Fu Xuan
+            case 3: // Fenetre Fu Xuan
                 bannerSeele = new ImageIcon("BannerPromo/Fu_Xuan.png");
-                previous = new JButton("Previous");
-                previous.addActionListener(this);
+                panelButton.add(previous);
+                panelButton.add(one);
+                panelButton.add(ten);
+                panelButton.add(next);
+                break;
+            case 4:
+                bannerSeele = new ImageIcon("BannerPromo/Blade.jpg");
                 panelButton.add(previous);
                 panelButton.add(one);
                 panelButton.add(ten);
@@ -283,10 +309,4 @@ public class mainWindows extends JFrame implements ActionListener {
         revalidate();
         repaint();
     }
-
-    public static void main(String[] args) {
-        mainWindows fenetre = new mainWindows();
-        fenetre.setVisible(true);
-    }
-
 }

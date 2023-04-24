@@ -15,6 +15,9 @@ public class Gacha {
     private static boolean safeFive = false; // sécure limited 5*
     private static boolean safeFour = false; // sécure limited 4*
 
+    private static final double perFive = 0.6;
+    private static final double perFour = 5.1;
+
     private static String gachaGen(String[] tab) {
         String result;
         Random random = new Random();
@@ -34,7 +37,7 @@ public class Gacha {
         if (banner == null) {
             banner = new Banner(standard_5, standard_4);
         }
-        if (rand < 0.6) {
+        if (rand < perFive) {
             if (isRatedUp || safeFive) {
                 result = gachaGen(banner.getLimited_5());
                 safeFive = false;
@@ -42,7 +45,7 @@ public class Gacha {
                 result = gachaGen(standard_5);
                 safeFive = true;
             }
-        } else if (rand < 4.6) {
+        } else if (rand < perFour) {
             if (isRatedUp || safeFour) {
                 result = gachaGen(banner.getLimited_4());
                 safeFour = false;
@@ -83,7 +86,7 @@ public class Gacha {
                     }
                     pity = 0;
                 } else {
-                    if (rand < 0.6) {
+                    if (rand < perFive) {
                         if (isRatedUp || safeFive) {
                             result.add(gachaGen(banner.getLimited_5()));
                             safeFive = false;
@@ -92,7 +95,7 @@ public class Gacha {
                             safeFive = true;
                         }
                         pity = 0;
-                    } else if (rand < 5.1) {
+                    } else if (rand < perFour) {
                         if (isRatedUp || safeFour) {
                             result.add(gachaGen(banner.getLimited_4()));
                             safeFour = false;
@@ -116,7 +119,7 @@ public class Gacha {
                 pity = 0;
                 /* Aucune pity */
             } else {
-                if (rand < 0.6) {
+                if (rand < perFive) {
                     if (isRatedUp || safeFive) {
                         result.add(gachaGen(banner.getLimited_5()));
                         safeFive = false;
@@ -125,7 +128,7 @@ public class Gacha {
                         safeFive = true;
                     }
                     pity = 0;
-                } else if (rand < 5.1) {
+                } else if (rand < perFour) {
                     if (isRatedUp || safeFour) {
                         result.add(gachaGen(banner.getLimited_4()));
                         safeFour = false;
