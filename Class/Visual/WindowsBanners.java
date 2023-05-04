@@ -155,8 +155,10 @@ public class WindowsBanners extends JFrame implements ActionListener {
             if (e.getSource() == one) {
                 switch (actualConfig) {
                     case 0 -> resultat = Gacha.pull(bannerSeelePull);
-                    case 1 -> resultat = Gacha.pull(bannerKafkaPull);
-                    case 2 -> resultat = Gacha.pull(bannerFuXuanPull);
+                    case 1 -> resultat = Gacha.pull(bannerBronyaPull);
+                    case 2 -> resultat = Gacha.pull(bannerKafkaPull);
+                    case 3 -> resultat = Gacha.pull(bannerFuXuanPull);
+                    case 4 -> resultat = Gacha.pull(bannerBladePull);
                 }
                 panelButton.removeAll();
                 panelButton.add(one);
